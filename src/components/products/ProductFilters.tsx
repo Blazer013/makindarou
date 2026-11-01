@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { createTranslator } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { Select } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -9,10 +10,10 @@ import type { Locale } from '@/config/i18n';
 
 interface ProductFiltersProps {
   locale: Locale;
-  t: (key: string) => string;
 }
 
-export function ProductFilters({ locale, t }: ProductFiltersProps) {
+export function ProductFilters({ locale }: ProductFiltersProps) {
+  const t = createTranslator(locale);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

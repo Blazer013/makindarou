@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { createTranslator } from '@/lib/i18n';
 import type { Locale } from '@/config/i18n';
 
 interface FooterProps {
   currentLocale: Locale;
-  t: (key: string) => string;
 }
 
 const footerLinks = {
@@ -40,8 +40,9 @@ const socialLinks = [
   { href: 'https://telegram.org', label: 'Telegram', icon: '📱' },
 ];
 
-export function Footer({ currentLocale, t }: FooterProps) {
+export function Footer({ currentLocale }: FooterProps) {
   const dir = currentLocale === 'en' ? 'ltr' : 'rtl';
+  const t = createTranslator(currentLocale);
 
   return (
     <footer className={cn('bg-neutral-900 text-neutral-300', dir === 'rtl' && 'rtl')} role="contentinfo">

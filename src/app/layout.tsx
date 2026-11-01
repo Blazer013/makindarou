@@ -43,9 +43,9 @@ export const metadata: Metadata = {
   creator: 'Makian Darou Golestan',
   publisher: 'Makian Darou Golestan',
   formatDetection: {
-    email: 'makiandarou@gmail.com',
-    address: 'Nahar Khoran Blvd, Between Adalat 105 & 107, Safir Complex, 3rd Floor, Gorgan, Golestan, Iran',
-    telephone: '+98-17-32520903',
+    email: false,
+    address: false,
+    telephone: false,
   },
   metadataBase: new URL('https://makiandarou.ir'),
   alternates: {
@@ -82,13 +82,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
   },
 };
 

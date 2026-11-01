@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { createTranslator } from '@/lib/i18n';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Textarea } from '@/components/ui/Input';
+import { Input, Select, Textarea } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import type { Locale } from '@/config/i18n';
 
 interface ContactPageProps {
-  params: Promise<{ locale: Locale }>;
+  params: { locale: Locale };
 }
 
 const contactInfo = [
@@ -66,9 +65,8 @@ const contactInfo = [
   },
 ];
 
-export default async function ContactPage({ params }: ContactPageProps) {
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale;
+export default function ContactPage({ params }: ContactPageProps) {
+  const locale = params.locale;
   const t = createTranslator(locale);
 
   const [formData, setFormData] = useState({
@@ -246,25 +244,25 @@ export default async function ContactPage({ params }: ContactPageProps) {
                   />
                 </div>
 
-                <Input
+                <Select
                   label={t('contact.form.subject')}
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   error={errors.subject}
-                  placeholder={t('contact.form.subjectPlaceholder') || 'موضوع پیام'}
+                  placeholder={t('contact.form.selectSubject') || 'موضوع را انتخاب کنید'}
+                  options={[
+                    { value: 'general', label: t('contact.subjects.general') || 'استعلام عمومی' },
+                    { value: 'product', label: t('contact.subjects.product') || 'استعلام محصول' },
+                    { value: 'order', label: t('contact.subjects.order') || 'سفارش و خرید' },
+                    { value: 'technical', label: t('contact.subjects.technical') || 'پشتیبانی فنی' },
+                    { value: 'complaint', label: t('contact.subjects.complaint') || 'شکایت و پیشنهاد' },
+                    { value: 'partnership', label: t('contact.subjects.partnership') || 'همکاری و نمایندگی' },
+                    { value: 'career', label: t('contact.subjects.career') || 'فرصت‌های شغلی' },
+                    { value: 'other', label: t('contact.subjects.other') || 'سایر' },
+                  ]}
                   required
-                >
-                  <option value="" disabled>{t('contact.form.selectSubject') || 'موضوع را انتخاب کنید'}</option>
-                  <option value="general">{t('contact.subjects.general') || 'استعلام عمومی'}</option>
-                  <option value="product">{t('contact.subjects.product') || 'استعلام محصول'}</option>
-                  <option value="order">{t('contact.subjects.order') || 'سفارش و خرید'}</option>
-                  <option value="technical">{t('contact.subjects.technical') || 'پشتیبانی فنی'}</option>
-                  <option value="complaint">{t('contact.subjects.complaint') || 'شکایت و پیشنهاد'}</option>
-                  <option value="partnership">{t('contact.subjects.partnership') || 'همکاری و نمایندگی'}</option>
-                  <option value="career">{t('contact.subjects.career') || 'فرصت‌های شغلی'}</option>
-                  <option value="other">{t('contact.subjects.other') || 'سایر'}</option>
-                </Input>
+                />
 
                 <Textarea
                   label={t('contact.form.message')}

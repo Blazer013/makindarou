@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn, getCategoryColor, getAnimalTypeLabel } from '@/lib/utils';
+import { createTranslator } from '@/lib/i18n';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -12,7 +13,6 @@ import type { Locale } from '@/config/i18n';
 interface ProductCardProps {
   product: Product;
   locale: Locale;
-  t: (key: string) => string;
 }
 
 function getCategoryLabel(category: string, locale: Locale): string {
@@ -40,7 +40,8 @@ const categoryIcons: Record<string, string> = {
   equipment: '🔧',
 };
 
-export function ProductCard({ product, locale, t }: ProductCardProps) {
+export function ProductCard({ product, locale }: ProductCardProps) {
+  const t = createTranslator(locale);
   const categoryColor = getCategoryColor(product.category);
   const categoryLabel = getCategoryLabel(product.category, locale);
   const animalLabel = getAnimalTypeLabel(product.animalType, locale);

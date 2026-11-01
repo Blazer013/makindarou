@@ -2,12 +2,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createTranslator } from '@/lib/i18n';
-import { getProductBySlug, products, getCategoryColor, getAnimalTypeLabel } from '@/data/products';
-import { productJsonLd, breadcrumbJsonLd, generateJsonLd } from '@/lib/utils';
+import { getProductBySlug, products, categories } from '@/data/products';
+import { productJsonLd, breadcrumbJsonLd, generateJsonLd, getCategoryColor, getAnimalTypeLabel, cn } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
 import type { Locale } from '@/config/i18n';
 
 interface ProductDetailPageProps {
@@ -81,7 +80,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const title = locale === 'fa' ? product.titleFa : locale === 'ar' ? product.titleAr : product.titleEn;
   const shortDesc = locale === 'fa' ? product.shortDescriptionFa : locale === 'ar' ? product.shortDescriptionAr : product.shortDescriptionEn;
   const fullDesc = locale === 'fa' ? product.fullDescriptionFa : locale === 'ar' ? product.fullDescriptionAr : product.fullDescriptionEn;
-  const categoryLabel = locale === 'fa' ? product.categoryFa : locale === 'ar' ? product.categoryAr : product.categoryEn;
+  const categoryLabel = locale === 'fa'
+    ? categories.find((category) => category.id === product.category)?.nameFa ?? product.category
+    : locale === 'ar'
+      ? categories.find((category) => category.id === product.category)?.nameAr ?? product.category
+      : categories.find((category) => category.id === product.category)?.nameEn ?? product.category;
   const animalLabel = getAnimalTypeLabel(product.animalType, locale);
 
   const categoryColor = getCategoryColor(product.category);
@@ -299,7 +302,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                         </div>
                       </div>
                       <Badge variant={getCategoryColor(related.category) as any} className="mb-3">
-                        {locale === 'fa' ? related.categoryFa : locale === 'ar' ? related.categoryAr : related.categoryEn}
+                        {locale === 'fa'
+                          ? categories.find((category) => category.id === related.category)?.nameFa ?? related.category
+                          : locale === 'ar'
+                            ? categories.find((category) => category.id === related.category)?.nameAr ?? related.category
+                            : categories.find((category) => category.id === related.category)?.nameEn ?? related.category}
                       </Badge>
                       <h3 className="text-lg font-bold text-neutral-900 mb-2 group-hover:text-primary-600 transition-colors">
                         {locale === 'fa' ? related.titleFa : locale === 'ar' ? related.titleAr : related.titleEn}

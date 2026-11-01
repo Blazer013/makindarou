@@ -10,7 +10,7 @@ import { organizationJsonLd, websiteJsonLd, generateJsonLd } from '@/lib/utils';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const resolvedParams = await params;
-  const locale = resolvedParams.locale;
+  const locale = resolvedParams.locale as Locale;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -44,11 +44,11 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       </head>
       <body className="flex flex-col min-h-screen">
         <SkipLink />
-        <Header currentLocale={locale} currentPath={`/${locale}/`} t={t} />
+        <Header currentLocale={locale} currentPath={`/${locale}/`} />
         <main id="main-content" className="flex-grow" role="main">
           {children}
         </main>
-        <Footer currentLocale={locale} t={t} />
+        <Footer currentLocale={locale} />
       </body>
     </html>
   );

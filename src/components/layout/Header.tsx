@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { createTranslator } from '@/lib/i18n';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Button } from '@/components/ui/Button';
 import type { Locale } from '@/config/i18n';
@@ -10,7 +11,6 @@ import type { Locale } from '@/config/i18n';
 interface HeaderProps {
   currentLocale: Locale;
   currentPath: string;
-  t: (key: string) => string;
 }
 
 const navItems: Array<{ href: string; labelKey: string }> = [
@@ -22,9 +22,10 @@ const navItems: Array<{ href: string; labelKey: string }> = [
   { href: '/contact/', labelKey: 'nav.contact' },
 ];
 
-export function Header({ currentLocale, currentPath, t }: HeaderProps) {
+export function Header({ currentLocale, currentPath }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dir = currentLocale === 'en' ? 'ltr' : 'rtl';
+  const t = createTranslator(currentLocale);
 
   return (
     <header className={cn('sticky top-0 z-[60] bg-white/95 backdrop-blur-md border-b border-neutral-200', dir === 'rtl' && 'rtl')}>

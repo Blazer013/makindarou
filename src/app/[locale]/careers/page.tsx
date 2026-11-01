@@ -10,6 +10,9 @@ interface CareersPageProps {
   params: Promise<{ locale: Locale }>;
 }
 
+type LocalizedText = Record<'fa' | 'en' | 'ar', string>;
+type LocalizedList = Record<'fa' | 'en' | 'ar', string[]>;
+
 const jobs = [
   {
     id: 'sales-rep',
@@ -112,7 +115,8 @@ export default async function CareersPage({ params }: CareersPageProps) {
   const locale = resolvedParams.locale;
   const t = createTranslator(locale);
 
-  const getLocaleString = (obj: Record<string, string>) => obj[locale] || obj.fa || obj.en;
+  const getLocaleString = (obj: LocalizedText) => obj[locale] || obj.fa || obj.en || obj.ar;
+  const getLocaleList = (obj: LocalizedList) => obj[locale] || obj.fa || obj.en || obj.ar || [];
 
   return (
     <div className="flex flex-col">
@@ -159,7 +163,7 @@ export default async function CareersPage({ params }: CareersPageProps) {
                             {t('careers.requirements')}
                           </h4>
                           <ul className="space-y-2 text-neutral-700">
-                            {getLocaleString(job.requirements).map((req, i) => (
+                            {getLocaleList(job.requirements).map((req, i) => (
                               <li key={i} className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 bg-primary-500 rounded-full flex-shrink-0" aria-hidden="true"></span>
                                 {req}
@@ -177,7 +181,7 @@ export default async function CareersPage({ params }: CareersPageProps) {
                             {t('careers.benefitsList')}
                           </h4>
                           <ul className="space-y-2 text-neutral-700">
-                            {getLocaleString(job.benefits).map((benefit, i) => (
+                            {getLocaleList(job.benefits).map((benefit, i) => (
                               <li key={i} className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 bg-accent-500 rounded-full flex-shrink-0" aria-hidden="true"></span>
                                 {benefit}
